@@ -1,0 +1,15 @@
+#chat_messages div {
+    background-color: #a8e0a8;
+}
+
+#chat_messages .response::before {
+    border-top: 20px solid #a8e0a8;
+}
+
+#chat_messages .customercare {
+    background-color: mediumseagreen;
+}
+
+#chat_messages .customercare::before {
+    border-top: 20px solid mediumseagreen;
+}

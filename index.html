@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no" />
+    <meta name="apple-mobile-web-app-title" content="Toyota Zambia">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
+    <link rel="stylesheet" href="css/materialize.min.css">
+    <script src="cordova.js"></script>
+    <script src="js/materialize.min.js"></script>
+    <script src="js/account.js"></script>
+    <script src="js/chat.js"></script>
+    <script src="js/sweetalert2.js"></script>
+    <script src="js/loader.js"></script>
+    <link href="css/main.css" rel="stylesheet" type="text/css" />
+    <link href="css/loader.css" rel="stylesheet" type="text/css" />
+    <link href="css/chat.css" rel="stylesheet" type="text/css" />
+    <link id="theme" rel="stylesheet" href="themes/chat_theme_gray.css">
+    <link href="css/sweetalert2.css" rel="stylesheet" type="text/css" />
+    <link href="css/animate.min.css" rel="stylesheet" type="text/css" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#c22f2f">
+    <meta name="theme-color" content="#ffffff">
+    <script type="text/javascript">
+        message_center_audio = new Audio('sound/Ceres.ogg');
+        location.href = "#";
+        $(document).ready(function () {
+            $(".button-collapse").sideNav();
+            $("#start").fadeIn();
+            $("#close_button").click(function () {
+                $("#overlay").fadeOut();
+                $("video").each(function () {
+                    this.pause();
+                });
+                $("#overlay_contents").html("");
+            });
+            location.href = "#language";
+        });
+        $(window).on('hashchange', function () {
+            var view = location.hash.slice(1);
+            if (view == "language") {
+                $("#main_content").load("inc/language.html");
+            }
+            if (view == "author") {
+                var language = localStorage.getItem("language");
+                if (language) {
+                    $("#main_content").load("" + server_path + "media_auto.php?task=authors&language=" + language + "");
+                }
+                else {
+                    $("#main_content").load("inc/language.html");
+                }
+            }
+            if (view == "media") {
+                var author_id = sessionStorage.getItem("author_id");
+                var author_name = sessionStorage.getItem("author_name");
+                get_media(author_id, author_name);
+            }
+        });
+
+        function set_author(author_id, author_name) {
+            sessionStorage.setItem("author_id", author_id);
+            sessionStorage.setItem("author_name", author_name);
+            location.href = "#media";
+        }
+
+        function get_media(author_id, author_name) {
+            sessionStorage.setItem("author_id", author_id);
+            sessionStorage.setItem("author_name", author_name);
+            var language = localStorage.getItem("language");
+            $("#main_content").load("" + server_path + "media_auto.php?task=list&language=" + language + "&author_id=" + author_id + "", function () {
+                $("#breadcrumb").load("inc/breadcrump.html", function () {
+                    document.getElementById("bc_text").innerHTML = sessionStorage.getItem("author_name");
+                    $("#bc_target").prop("href", "#author");
+                });
+            });
+        }
+
+        function get_series(series_id, series_title) {
+            sessionStorage.setItem("series_title", series_title);
+            $("#main_content").load("" + server_path + "media_auto.php?task=list_series&series_id=" + series_id + "", function () {
+                $("#breadcrumb").load("inc/breadcrump.html", function () {
+                    document.getElementById("bc_text_back").innerHTML = sessionStorage.getItem("author_name");
+                    document.getElementById("bc_text").innerHTML = series_title;
+                    $("#bc_target").prop("href", "#media");
+                });
+                location.href = "#series";
+            });
+        }
+
+        function play_media(filepath, type) {
+            if (type != "writing") {
+                $.get("" + server_path + "media_auto.php?task=play&filepath=" + filepath + "&type=" + type + "", function (data) {
+                    swal({
+                        html: data
+                        , showConfirmButton: false
+                        , confirmButtonText: "Close"
+                    }).then(function (result) {});
+                });
+            }
+            else {
+                $("#overlay").fadeIn();
+            }
+        }
+
+        function open_chat() {
+            var user_id = localStorage.getItem("user_id");
+            if (user_id) {
+                $("#overlay_title").html("Chat with us");
+                $("#overlay").fadeIn();
+                $("#overlay_content").html("");
+                $("#overlay_content").html("<div class='waves-effect waves-light' id='chat_settings_btn' onclick='chat_settings();'></div><div id='chat_messages'></div><div id='chat_send_area'><div id='chat_text_box' contenteditable=''></div><div id='chat_send_btn'></div></div>");
+                $("#icons").fadeOut();
+                $("#chat_send_btn").click(function () {
+                    send_message_to_customer_care_from_chat();
+                })
+                check_chat_update();
+            }
+            else {
+                swal("You have to be signed in to use the chat.");
+                open_account_settings();
+            }
+        }
+
+        function menu_click(type) {
+            if (type == "language") {
+                location.href = "#language";
+            }
+            if (type == "media") {
+                location.href = "#author";
+            }
+            if (type == "donate") {
+                location.href = "#donate";
+            }
+            if (type == "chat") {
+                open_chat();
+            }
+            if (type == "service") {
+                var user_id = localStorage.getItem("user_id");
+                if (user_id) {
+                    $("#overlay_title").html("Service");
+                    $("#overlay").fadeIn();
+                    $("#overlay_content").html("");
+                    $("#overlay_content").load("" + server_path + "account.php?task=service&user_id=" + user_id + "", function () {
+                        $('select').material_select();
+                    });
+                }
+                else {
+                    swal("", "You need to be signed in to use this function.", "");
+                }
+                $('.button-collapse').sideNav('hide');
+            }
+            if (type == "sales") {
+                swal({
+                    title: 'I am interested in'
+                    , input: 'select'
+                    , inputOptions: {
+                        'car': 'Car Sales'
+                        , 'truck': 'Truck Sales'
+                        , 'other': 'Others'
+                    }
+                    , showCancelButton: true
+                }).then(function (result) {
+                    open_chat();
+                })
+            }
+            if (type == "spare") {
+                swal("", "Please let us know which spare parts you need.", "info");
+                open_chat();
+            }
+            if (type == "share") {
+                share();
+            }
+            $('.button-collapse').sideNav('hide');
+        }
+
+        function share() {
+            var the_subject = "Precious Present Truth";
+            var the_message = "Discover biblical truth with our free app. Download now!";
+            window.plugins.socialsharing.share(the_message, the_subject);
+        }
+
+        function open_account_settings() {
+            $("#overlay_title").html("My Account");
+            $("#overlay").fadeIn();
+            $("#overlay_content").html("");
+            var user_id = localStorage.getItem("user_id");
+            if (user_id) {
+                $("#overlay_content").load("inc/account_signed_in.html", function () {
+                    var first_name = localStorage.getItem("first_name");
+                    var last_name = localStorage.getItem("last_name");
+                    var email = localStorage.getItem("email");
+                    var phone = localStorage.getItem("phone");
+                    $("#account_name").html("<i class='material-icons'>account_box</i> " + first_name + " " + last_name + "");
+                    $("#account_email").html("<i class='material-icons'>email</i> " + email + "");
+                    $("#account_phone").html("<i class='material-icons'>smartphone</i> " + phone + "");
+                });
+            }
+            else {
+                $("#overlay_content").load("inc/account_start.html");
+            }
+            $('.button-collapse').sideNav('hide');
+        }
+
+        function sign_in() {
+            $("#account_start").removeClass("animated zoomIn");
+            $("#account_start").addClass("animated zoomOut");
+            setTimeout(function () {
+                $("#overlay_content").load("inc/sign_in.html");
+            }, 1000);
+        }
+
+        function register() {
+            $("#account_start").removeClass("animated zoomIn");
+            $("#account_start").addClass("animated zoomOut");
+            setTimeout(function () {
+                $("#overlay_content").load("inc/register.html", function () {
+                    $('select').material_select();
+                });
+            }, 1000);
+        }
+
+        function manage_cars() {
+            var user_id = localStorage.getItem("user_id");
+            $("#overlay_title").html("Manage my vehicles");
+            $("#overlay").fadeIn();
+            $("#overlay_content").load("inc/cars_start.html", function () {
+                $('select').material_select();
+            });
+        }
+
+        function manage_car() {
+            var user_id = localStorage.getItem("user_id");
+            $("#overlay_title").html("Manage my vehicles");
+            $("#overlay").fadeIn();
+            $("#overlay_content").load("" + server_path + "account.php?task=manage_car&user_id=" + user_id + "", function () {
+                $('select').material_select();
+            });
+        }
+
+        function register_car() {
+            $("#overlay_title").html("Register new vehicle");
+            $("#overlay").fadeIn();
+            $("#overlay_content").load("inc/register_car.html", function () {
+                $('select').material_select();
+            });
+        }
+
+        function start_register_car() {
+            model = $("#model").val();
+            year_and_make = $("#year_and_make").val();
+            reg_plate = $("#reg_plate").val();
+            var user_id = localStorage.getItem("user_id");
+            var sec_key = localStorage.getItem("sec_key");
+            console.log("sec_key: " + sec_key);
+            $.get("" + server_path + "account.php", {
+                task: "register_new_car"
+                , reg_plate: reg_plate
+                , year_and_make: year_and_make
+                , model: model
+                , user_id: user_id
+                , sec_key: sec_key
+            }).done(function (data) {
+                manage_car();
+            });
+        }
+
+        function set_lang(lang) {
+            localStorage.setItem("language", lang);
+            location.href = "#author";
+        }
+    </script>
+</head>
+
+<body id="start">
+    <div id="overlay">
+        <nav>
+            <div class="animated fadeInLeft" id="overlay_title"></div>
+            <ul class="right waves-effect waves-light">
+                <div id="close_button"></div>
+            </ul>
+        </nav>
+        <div id="overlay_content"></div>
+    </div>
+    <nav>
+        <div class="nav-wrapper"> <a href="#" data-activates="mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+            <ul class="side-nav fixed" id="mobile">
+                <li id="account" onclick="open_account_settings();">
+                    <div class="userView">
+                        <div> </div>
+                        <div> <span id="nav_name_display" class="white-text name">
+                            Sign In
+                            </span> </div>
+                        <div><span id="nav_email_display" class="white-text email"></span></div>
+                    </div>
+                </li>
+                <li><a onclick="menu_click('chat');"><i class="material-icons">chat</i>Chat <span id="menu_message_badge" class="new badge">0</span></a></li>
+                <li><a onclick="menu_click('language');"><i class="material-icons">flag</i>Language</a></li>
+                <li><a onclick="menu_click('media');"><i class="material-icons">library_music</i>Media</a></li>
+                <li><a onclick="menu_click('donate');"><i class="material-icons">card_giftcard</i> Donate</a></li>
+                <li><a onclick="menu_click('share');"><i class="material-icons">share</i> Share</a></li>
+            </ul>
+        </div>
+    </nav>
+    <section id="main_content"></section>
+</body>
+
+</html>
