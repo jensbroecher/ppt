@@ -3,11 +3,11 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, user-scalable=no" />
+    <meta name="viewport" content="width=device-width, user-scalable=no">
     <meta name="apple-mobile-web-app-title" content="Toyota Zambia">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
+    <script src="js/jquery-2.1.1.min.js"></script>
     <link rel="stylesheet" href="css/materialize.min.css">
     <script src="cordova.js"></script>
     <script src="js/materialize.min.js"></script>
@@ -15,12 +15,13 @@
     <script src="js/chat.js"></script>
     <script src="js/sweetalert2.js"></script>
     <script src="js/loader.js"></script>
-    <link href="css/main.css" rel="stylesheet" type="text/css" />
-    <link href="css/loader.css" rel="stylesheet" type="text/css" />
-    <link href="css/chat.css" rel="stylesheet" type="text/css" />
+    <link href="css/main.css" rel="stylesheet" type="text/css">
+    <link href="css/loader.css" rel="stylesheet" type="text/css">
+    <link href="css/ispinner.css" rel="stylesheet" type="text/css">
+    <link href="css/chat.css" rel="stylesheet" type="text/css">
     <link id="theme" rel="stylesheet" href="themes/chat_theme_gray.css">
-    <link href="css/sweetalert2.css" rel="stylesheet" type="text/css" />
-    <link href="css/animate.min.css" rel="stylesheet" type="text/css" />
+    <link href="css/sweetalert2.css" rel="stylesheet" type="text/css">
+    <link href="css/animate.min.css" rel="stylesheet" type="text/css">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -30,30 +31,57 @@
     <script type="text/javascript">
         message_center_audio = new Audio('sound/Ceres.ogg');
         location.href = "#";
-        $(document).ready(function () {
+        $(document).ready(function() {
+
+            $("#ispinner").click(function() {
+                $("#ispinner").fadeOut();
+            });
+
             $(".button-collapse").sideNav();
             $("#start").fadeIn();
-            $("#close_button").click(function () {
+            $("#close_button").click(function() {
                 $("#overlay").fadeOut();
-                $("video").each(function () {
+                $("video").each(function() {
                     this.pause();
                 });
                 $("#overlay_contents").html("");
             });
             location.href = "#language";
         });
-        $(window).on('hashchange', function () {
+        $(window).on('hashchange', function() {
             var view = location.hash.slice(1);
             if (view == "language") {
-                $("#main_content").load("inc/language.html");
+                $("#main_content").load("inc/language.html", function() {
+                    $("#ispinner").fadeOut();
+                    $("#view_title").html("Select Language");
+                });
+            }
+            if (view == "donate") {
+
+                try {
+                    cordova.InAppBrowser.open('http://preciouspresenttruth.org/?page_id=768', '_system', 'location=yes');
+                } catch (e) {
+                    window.open("http://preciouspresenttruth.org/?page_id=768");
+                }
+
+
+
             }
             if (view == "author") {
+
+                $("#ispinner").fadeIn();
+
                 var language = localStorage.getItem("language");
                 if (language) {
-                    $("#main_content").load("" + server_path + "media_auto.php?task=authors&language=" + language + "");
-                }
-                else {
-                    $("#main_content").load("inc/language.html");
+                    $("#main_content").load("" + server_path + "media_auto.php?task=authors&language=" + language + "", function() {
+                        $("#ispinner").fadeOut();
+                        $("#view_title").html("Select Author");
+                    });
+                } else {
+                    $("#main_content").load("inc/language.html", function() {
+                        $("#ispinner").fadeOut();
+                        $("#view_title").html("Select Language");
+                    });
                 }
             }
             if (view == "media") {
@@ -70,11 +98,18 @@
         }
 
         function get_media(author_id, author_name) {
+
+            $("#ispinner").fadeIn();
+
             sessionStorage.setItem("author_id", author_id);
             sessionStorage.setItem("author_name", author_name);
             var language = localStorage.getItem("language");
-            $("#main_content").load("" + server_path + "media_auto.php?task=list&language=" + language + "&author_id=" + author_id + "", function () {
-                $("#breadcrumb").load("inc/breadcrump.html", function () {
+            $("#main_content").load("" + server_path + "media_auto.php?task=list&language=" + language + "&author_id=" + author_id + "", function() {
+                $("#breadcrumb").load("inc/breadcrump.html", function() {
+
+                    $("#ispinner").fadeOut();
+                    $("#view_title").html("Select Media");
+
                     document.getElementById("bc_text").innerHTML = sessionStorage.getItem("author_name");
                     $("#bc_target").prop("href", "#author");
                 });
@@ -82,28 +117,52 @@
         }
 
         function get_series(series_id, series_title) {
+
+            $("#ispinner").fadeIn();
+
             sessionStorage.setItem("series_title", series_title);
-            $("#main_content").load("" + server_path + "media_auto.php?task=list_series&series_id=" + series_id + "", function () {
-                $("#breadcrumb").load("inc/breadcrump.html", function () {
+            $("#main_content").load("" + server_path + "media_auto.php?task=list_series&series_id=" + series_id + "", function() {
+                
+                $("#view_title").html("Select Media");
+                
+                $("#breadcrumb").load("inc/breadcrump.html", function() {
                     document.getElementById("bc_text_back").innerHTML = sessionStorage.getItem("author_name");
                     document.getElementById("bc_text").innerHTML = series_title;
                     $("#bc_target").prop("href", "#media");
+                    $("#ispinner").fadeOut();
                 });
                 location.href = "#series";
             });
         }
 
         function play_media(filepath, type) {
+            
+            $("#ispinner").fadeIn();
+            
             if (type != "writing") {
-                $.get("" + server_path + "media_auto.php?task=play&filepath=" + filepath + "&type=" + type + "", function (data) {
+                $.get("" + server_path + "media_auto.php?task=play&filepath=" + filepath + "&type=" + type + "", function(data) {
+                    
+                    
+                    
+                    $("#ispinner").hide();
+                    
                     swal({
-                        html: data
-                        , showConfirmButton: false
-                        , confirmButtonText: "Close"
-                    }).then(function (result) {});
+                        html: data,
+                        showConfirmButton: false,
+                        onOpen: function() {
+                            try {
+                                var audioplayer = document.getElementById("audioplayer");
+                                audioplayer.play();
+                            } catch (e) {
+                                var videoplayer = document.getElementById("videoplayer");
+                                videoplayer.play();
+                            }
+                        }
+                    }).then(function(result) {
+                        
+                    }).catch(swal.noop);
                 });
-            }
-            else {
+            } else {
                 $("#overlay").fadeIn();
             }
         }
@@ -116,12 +175,11 @@
                 $("#overlay_content").html("");
                 $("#overlay_content").html("<div class='waves-effect waves-light' id='chat_settings_btn' onclick='chat_settings();'></div><div id='chat_messages'></div><div id='chat_send_area'><div id='chat_text_box' contenteditable=''></div><div id='chat_send_btn'></div></div>");
                 $("#icons").fadeOut();
-                $("#chat_send_btn").click(function () {
+                $("#chat_send_btn").click(function() {
                     send_message_to_customer_care_from_chat();
                 })
                 check_chat_update();
-            }
-            else {
+            } else {
                 swal("You have to be signed in to use the chat.");
                 open_account_settings();
             }
@@ -146,26 +204,25 @@
                     $("#overlay_title").html("Service");
                     $("#overlay").fadeIn();
                     $("#overlay_content").html("");
-                    $("#overlay_content").load("" + server_path + "account.php?task=service&user_id=" + user_id + "", function () {
+                    $("#overlay_content").load("" + server_path + "account.php?task=service&user_id=" + user_id + "", function() {
                         $('select').material_select();
                     });
-                }
-                else {
+                } else {
                     swal("", "You need to be signed in to use this function.", "");
                 }
                 $('.button-collapse').sideNav('hide');
             }
             if (type == "sales") {
                 swal({
-                    title: 'I am interested in'
-                    , input: 'select'
-                    , inputOptions: {
-                        'car': 'Car Sales'
-                        , 'truck': 'Truck Sales'
-                        , 'other': 'Others'
-                    }
-                    , showCancelButton: true
-                }).then(function (result) {
+                    title: 'I am interested in',
+                    input: 'select',
+                    inputOptions: {
+                        'car': 'Car Sales',
+                        'truck': 'Truck Sales',
+                        'other': 'Others'
+                    },
+                    showCancelButton: true
+                }).then(function(result) {
                     open_chat();
                 })
             }
@@ -181,7 +238,7 @@
 
         function share() {
             var the_subject = "Precious Present Truth";
-            var the_message = "Discover biblical truth with our free app. Download now!";
+            var the_message = "Discover biblical truth with our free app. Découvrez la vérité biblique avec notre application gratuite.  https://play.google.com/store/apps/details?id=precious.present.truth";
             window.plugins.socialsharing.share(the_message, the_subject);
         }
 
@@ -191,7 +248,7 @@
             $("#overlay_content").html("");
             var user_id = localStorage.getItem("user_id");
             if (user_id) {
-                $("#overlay_content").load("inc/account_signed_in.html", function () {
+                $("#overlay_content").load("inc/account_signed_in.html", function() {
                     var first_name = localStorage.getItem("first_name");
                     var last_name = localStorage.getItem("last_name");
                     var email = localStorage.getItem("email");
@@ -200,8 +257,7 @@
                     $("#account_email").html("<i class='material-icons'>email</i> " + email + "");
                     $("#account_phone").html("<i class='material-icons'>smartphone</i> " + phone + "");
                 });
-            }
-            else {
+            } else {
                 $("#overlay_content").load("inc/account_start.html");
             }
             $('.button-collapse').sideNav('hide');
@@ -210,7 +266,7 @@
         function sign_in() {
             $("#account_start").removeClass("animated zoomIn");
             $("#account_start").addClass("animated zoomOut");
-            setTimeout(function () {
+            setTimeout(function() {
                 $("#overlay_content").load("inc/sign_in.html");
             }, 1000);
         }
@@ -218,8 +274,8 @@
         function register() {
             $("#account_start").removeClass("animated zoomIn");
             $("#account_start").addClass("animated zoomOut");
-            setTimeout(function () {
-                $("#overlay_content").load("inc/register.html", function () {
+            setTimeout(function() {
+                $("#overlay_content").load("inc/register.html", function() {
                     $('select').material_select();
                 });
             }, 1000);
@@ -229,7 +285,7 @@
             var user_id = localStorage.getItem("user_id");
             $("#overlay_title").html("Manage my vehicles");
             $("#overlay").fadeIn();
-            $("#overlay_content").load("inc/cars_start.html", function () {
+            $("#overlay_content").load("inc/cars_start.html", function() {
                 $('select').material_select();
             });
         }
@@ -238,7 +294,7 @@
             var user_id = localStorage.getItem("user_id");
             $("#overlay_title").html("Manage my vehicles");
             $("#overlay").fadeIn();
-            $("#overlay_content").load("" + server_path + "account.php?task=manage_car&user_id=" + user_id + "", function () {
+            $("#overlay_content").load("" + server_path + "account.php?task=manage_car&user_id=" + user_id + "", function() {
                 $('select').material_select();
             });
         }
@@ -246,7 +302,7 @@
         function register_car() {
             $("#overlay_title").html("Register new vehicle");
             $("#overlay").fadeIn();
-            $("#overlay_content").load("inc/register_car.html", function () {
+            $("#overlay_content").load("inc/register_car.html", function() {
                 $('select').material_select();
             });
         }
@@ -259,13 +315,13 @@
             var sec_key = localStorage.getItem("sec_key");
             console.log("sec_key: " + sec_key);
             $.get("" + server_path + "account.php", {
-                task: "register_new_car"
-                , reg_plate: reg_plate
-                , year_and_make: year_and_make
-                , model: model
-                , user_id: user_id
-                , sec_key: sec_key
-            }).done(function (data) {
+                task: "register_new_car",
+                reg_plate: reg_plate,
+                year_and_make: year_and_make,
+                model: model,
+                user_id: user_id,
+                sec_key: sec_key
+            }).done(function(data) {
                 manage_car();
             });
         }
@@ -274,6 +330,7 @@
             localStorage.setItem("language", lang);
             location.href = "#author";
         }
+
     </script>
 </head>
 
@@ -288,7 +345,12 @@
         <div id="overlay_content"></div>
     </div>
     <nav>
-        <div class="nav-wrapper"> <a href="#" data-activates="mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+        <div class="nav-wrapper"> 
+            
+            <a href="#" data-activates="mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+            
+            <div id="view_title"></div>
+            
             <ul class="side-nav fixed" id="mobile">
                 <li id="account" onclick="open_account_settings();">
                     <div class="userView">
@@ -308,6 +370,26 @@
         </div>
     </nav>
     <section id="main_content"></section>
+
+    <div id="ispinner">
+
+        <div class="ispinner white large animating">
+            <div class="ispinner-blade"></div>
+            <div class="ispinner-blade"></div>
+            <div class="ispinner-blade"></div>
+            <div class="ispinner-blade"></div>
+            <div class="ispinner-blade"></div>
+            <div class="ispinner-blade"></div>
+            <div class="ispinner-blade"></div>
+            <div class="ispinner-blade"></div>
+            <div class="ispinner-blade"></div>
+            <div class="ispinner-blade"></div>
+            <div class="ispinner-blade"></div>
+            <div class="ispinner-blade"></div>
+        </div>
+
+    </div>
+
 </body>
 
 </html>

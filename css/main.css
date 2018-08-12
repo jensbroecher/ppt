@@ -4,22 +4,22 @@
         font-weight: 400;
         src: local('Material Icons'), local('MaterialIcons-Regular'), url(../fonts/material/MaterialIcons-Regular.woff2) format('woff2'), url(../fonts/material/MaterialIcons-Regular.woff) format('woff'), url(../fonts/material/MaterialIcons-Regular.ttf) format('truetype');
     }
-    
+
     input,
     select {
         color: white;
     }
-    
+
     .select-dropdown {
         max-height: 300px;
     }
-    
+
     header,
     main,
     footer {
         padding-left: 300px;
     }
-    
+
     @media only screen and (max-width: 992px) {
         header,
         main,
@@ -27,7 +27,7 @@
             padding-left: 0;
         }
     }
-    
+
     .material-icons {
         font-family: 'Material Icons';
         font-weight: normal;
@@ -50,28 +50,28 @@
         /* Support for IE. */
         font-feature-settings: 'liga';
     }
-    
+
     body,
     html {
         width: 100%;
         height: 100%;
     }
-    
+
     #start {
         display: none;
     }
-    
+
     .warning {
         background-color: red !important;
     }
-    
+
     #list_box {
-        background-color: white;
+        background-color: #FBFBFD;
         height: calc(100vh - 91px);
         width: 100%;
         overflow: auto;
     }
-    
+
     #media_title {
         text-align: center;
         background-color: rgba(0, 0, 0, 0.5);
@@ -85,7 +85,7 @@
         box-sizing: border-box;
         font-size: 14px;
     }
-    
+
     .media_part {
         float: right;
         width: 24px;
@@ -99,7 +99,7 @@
         color: white;
         border-radius: 50%;
     }
-    
+
     #videoplayer {
         width: 100%;
         margin: 0;
@@ -108,7 +108,7 @@
         display: block;
         box-sizing: border-box;
     }
-    
+
     #audioplayer {
         width: 100%;
         border: 0;
@@ -116,35 +116,35 @@
         display: block;
         box-sizing: border-box;
     }
-    
+
     nav {
         background-color: #6989B8;
         background-repeat: no-repeat;
         background-size: cover;
         background-position: bottom right;
     }
-    
+
     .recordings_info {
         background-color: rgba(255, 255, 255, 0.5);
         margin-bottom: 20px;
         padding: 20px;
     }
-    
+
     #account {
         background-image: url(sky-414199_1280.jpg);
         background-size: cover;
         background-position: top;
         background-repeat: no-repeat;
     }
-    
+
     #menu_message_badge {
         display: none;
     }
-    
+
     .side-nav {
         box-shadow: none !important;
     }
-    
+
     #user_photo {
         background-color: #B7C3C9;
         background-image: url(user.jpg);
@@ -153,14 +153,14 @@
         background-position: center center;
         transition: all 1s;
     }
-    
+
     #start {
         background-size: cover;
         background-repeat: no-repeat;
         background-position: center;
         background-color: #d9cfcf;
     }
-    
+
     #overlay_title {
         position: fixed;
         top: 0;
@@ -168,7 +168,7 @@
         height: 56px;
         padding-left: 20px;
     }
-    
+
     #play_button {
         width: 24px;
         background-image: url(stop-circle-outline.svg);
@@ -193,7 +193,7 @@
         width: 24px;
         z-index: 1;
     }
-    
+
     #close_button {
         width: 24px;
         background-image: url(close-circle-outline.svg);
@@ -218,7 +218,7 @@
         width: 24px;
         z-index: 1;
     }
-    
+
     #logo {
         display: block;
         width: 70%;
@@ -227,7 +227,7 @@
         margin-left: auto;
         margin-right: auto;
     }
-    
+
     #lang-btns {
         padding-top: 30px;
         padding-bottom: 20px;
@@ -236,7 +236,7 @@
         margin-left: auto;
         margin-right: auto;
     }
-    
+
     #lang-btns li {
         width: 100%;
         padding-top: 10px;
@@ -244,36 +244,38 @@
         transition: all 0.5s;
         cursor: pointer;
     }
-    
+
     #lang-btns li img {
         width: 35px;
         height: 25px;
         vertical-align: middle;
         margin-right: 10px;
     }
-    
+
     #logo_text {
         display: block;
         width: 80%;
         margin-left: auto;
         margin-right: auto;
     }
-    
+
     .author,
     .media {
         font-size: 16px;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+        border-radius: 8px;
     }
-    
+
     .media {
         background-color: white;
         border-bottom: solid 1px silver;
         box-sizing: border-box;
         height: 45px;
+        margin: 10px;
     }
-    
+
     .media_title {
         white-space: nowrap;
         overflow: hidden;
@@ -284,21 +286,23 @@
         line-height: 45px;
         font-size: 14px;
     }
-    
+
     .author img {
-        padding: 10px;
+        margin: 10px;
         width: 80px;
         display: inline-block;
         vertical-align: middle;
+        border-radius: 8px;
     }
-    
+
     .media img {
-        padding: 10px;
+        margin: 10px;
         width: 60px;
         display: inline-block;
         vertical-align: middle;
+        border-radius: 8px;
     }
-    
+
     @media only screen and (min-width: 992px) {
         #logo {
             display: block;
@@ -308,7 +312,7 @@
             margin-right: auto;
         }
     }
-    
+
     #icons {
         position: fixed;
         background-color: rgba(0, 0, 0, 0.5);
@@ -317,7 +321,7 @@
         bottom: 100px;
         left: 300px;
     }
-    
+
     #live_info {
         position: fixed;
         background-color: rgba(255, 255, 255, 0.5);
@@ -326,7 +330,7 @@
         bottom: 0;
         left: 300px;
     }
-    
+
     #icon_news,
     #icon_chat,
     #icon_recordings,
@@ -343,7 +347,7 @@
         background-size: 60% 60%;
         transition: 0.5s;
     }
-    
+
     #icon_news:hover,
     #icon_chat:hover,
     #icon_recordings:hover,
@@ -351,7 +355,7 @@
         background-color: rgba(255, 255, 255, 0.3);
         transition: 0.5s;
     }
-    
+
     #overlay {
         position: fixed;
         top: 0;
@@ -362,21 +366,21 @@
         background-color: #47484B;
         display: none;
     }
-    
+
     #main_content {
         margin-top: 0px;
     }
-    
+
     #overlay_content {
         height: calc(100% - 56px);
         overflow: auto;
         font-family: 'Roboto', sans-serif;
     }
-    
+
     #overlay_content img {
         width: 100%;
     }
-    
+
     #account_start,
     #account_signed_in {
         background-image: url(radio-1603230_1280.jpg);
@@ -387,7 +391,7 @@
         overflow: auto;
         color: white;
     }
-    
+
     #recordings {
         background-image: url(microphone-616788_1280.jpg);
         background-size: cover;
@@ -396,36 +400,36 @@
         margin-top: 0px;
         overflow: auto;
     }
-    
+
     #account_details {
         background-color: rgba(255, 255, 255, 0.4);
         padding: 20px;
         margin-bottom: 40px;
     }
-    
+
     #account_details div {
         margin-top: 10px;
         margin-bottom: 10px;
     }
-    
+
     #account_details i {
         margin-right: 15px;
         vertical-align: middle;
     }
-    
+
     #account_start h4 {
         text-shadow: 1px 1px 2px black;
         font-size: 20px;
         font-weight: 300;
     }
-    
+
     .news_photo {
         border-radius: 6px;
         min-height: 172px;
         background-color: lightgray;
         transition: all 1s;
     }
-    
+
     .reaction {
         width: 48px;
         height: 48px;
@@ -436,7 +440,7 @@
         margin-left: 50%;
         border-radius: 100%;
     }
-    
+
     .reaction_right {
         width: 48px;
         height: 48px;
@@ -445,7 +449,7 @@
         color: #27A69A;
         vertical-align: top;
     }
-    
+
     .thumbs_up,
     .thumbs_down {
         display: inline-block;
@@ -456,34 +460,34 @@
         font-size: 16px;
         color: #27A69A;
     }
-    
+
     .reaction i,
     .reaction_right i {
         width: 48px;
         line-height: 48px;
         text-align: center;
     }
-    
+
     #icon_news {
         background-image: url(google-news-512.png);
         animation-delay: 0.1s;
     }
-    
+
     #icon_chat {
         background-image: url(chat-4-512.png);
         animation-delay: 0.2s;
     }
-    
+
     #icon_recordings {
         background-image: url(microphone-3-512.png);
         animation-delay: 0.3s;
     }
-    
+
     #icon_voting {
         background-image: url(star-7-512.png);
         animation-delay: 0.4s;
     }
-    
+
     #play_button_big {
         width: 100px;
         height: 100px;
@@ -498,7 +502,7 @@
         bottom: 0px;
         position: fixed;
     }
-    
+
     #play_button_info {
         position: fixed;
         bottom: 0;
@@ -510,19 +514,19 @@
         text-shadow: 1px 1px 5px rgba(69, 69, 69, 0.79);
         transition: all 0.3s;
     }
-    
+
     #presenter_name {
         position: fixed;
         right: 10px;
         bottom: 17px;
     }
-    
+
     #presenter_name_details {
         vertical-align: middle;
         display: inline-block;
         width: 100px;
     }
-    
+
     #presenter_photo {
         display: inline-block;
         width: 60px;
@@ -532,7 +536,7 @@
         border-radius: 10px;
         border: solid 3px white;
     }
-    
+
     @media only screen and (max-width: 992px) {
         #start {
             background-image: linear-gradient(#EDF0F5, white);
@@ -573,11 +577,11 @@
             position: fixed;
         }
     }
-    
+
     .card_spacer {
         margin-bottom: 15px;
     }
-    
+
     .media_header {
         height: 35px;
         color: black;
@@ -586,7 +590,7 @@
         font-size: 18px;
         margin-top: 15px;
     }
-    
+
     .breadcrumbs ul {
         padding: 0px;
         margin: 0px;
@@ -598,7 +602,7 @@
         background-position: center center;
         background-size: contain;
     }
-    
+
     .breadcrumbs li {
         float: left;
         display: block;
@@ -614,7 +618,15 @@
         overflow: hidden;
         color: white;
     }
-    
+
     .breadcrumbs li a {
         color: white;
+    }
+
+    #bc_text {
+        margin-left: 10px;
+        display: block;
+        width: 90%;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
