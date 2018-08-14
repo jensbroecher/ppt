@@ -630,3 +630,14 @@
         overflow: hidden;
         text-overflow: ellipsis;
     }
+
+.download_option, .share_option {
+    padding: 10px;
+    font-size: 14px;
+    line-height: 24px;
+}
+
+.download_option i, .share_option i {
+    margin-right: 10px;
+    vertical-align: middle;
+}

@@ -45,6 +45,7 @@ body.swal2-iosfix {
     overflow-y: auto;
     display: none;
     position: relative;
+    padding: 0px !important;
 }
 
 .swal2-modal:focus {

