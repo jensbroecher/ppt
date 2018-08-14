@@ -93,9 +93,13 @@
             }
         });
 
-        function set_author(author_id, author_name) {
+        function set_author(author_id) {
+            
+            var author_name = $("#author_"+author_id+"").html();
+            
             sessionStorage.setItem("author_id", author_id);
             sessionStorage.setItem("author_name", author_name);
+            
             location.href = "#media";
         }
 
