@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-    <widget xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0" id="precious.present.truth" versionCode="3" version="1.2.0">
+    <widget xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0" id="precious.present.truth" versionCode="4" version="1.4.0">
         <name>Precious Present Truth</name>
         <platform name="android" />
         <description> Audio Player </description>
