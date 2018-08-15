@@ -543,6 +543,7 @@
             background-size: cover;
             background-repeat: no-repeat;
             background-position: bottom;
+            background-attachment: fixed;
             background-color: white;
             transition: all 1s;
         }
@@ -640,4 +641,34 @@
 .download_option i, .share_option i {
     margin-right: 10px;
     vertical-align: middle;
+}
+
+#search {
+    position: fixed;
+    top: 0;
+    z-index: 100;
+    background-color: white;
+    line-height: 56px;
+    height: 56px;
+    color: black;
+    box-sizing: border-box;
+    padding-left: 12px;
+    padding-right: 12px;
+    overflow: hidden;
+    border-bottom: none;
+}
+
+#search:hover, #search:focus {
+    box-shadow: none;
+}
+
+.search_result {
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.71);
+    border-bottom: solid 1px #bababa;
+}
+
+.search_result_title {
+    font-size: 130%;
+    margin-bottom: 12px;
 }

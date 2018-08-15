@@ -58,6 +58,23 @@
                     $("#view_title").html("Select Language");
                 });
             }
+            if (view == "search") {
+                $("#main_content").load("inc/search.html", function() {
+                    $("#ispinner").fadeOut();
+                    $("#view_title").html("Search");
+                    
+                    $("#search").keyup(function() {
+                        var search_value = this.innerHTML;
+                        get_search_results(search_value);
+                    });
+                    
+                    $("#search").keyup(function() {
+                        var search_value = this.value;
+                        get_search_results(search_value);
+                    })
+                    
+                });
+            }
             if (view == "donate") {
 
                 try {
@@ -92,14 +109,24 @@
                 get_media(author_id, author_name);
             }
         });
+        
+        function get_search_results(search_value) {
+            if(search_value != "" && search_value.length > 4) {
+                console.log(search_value);
+                
+                var search_value = encodeURIComponent(search_value);
+                
+                $("#search_results").load(""+server_path+"search.php?term="+search_value+"");
+            }
+        }
 
         function set_author(author_id) {
-            
-            var author_name = $("#author_"+author_id+"").html();
-            
+
+            var author_name = $("#author_" + author_id + "").html();
+
             sessionStorage.setItem("author_id", author_id);
             sessionStorage.setItem("author_name", author_name);
-            
+
             location.href = "#media";
         }
 
@@ -355,7 +382,19 @@
 
             <a href="#" data-activates="mobile" class="button-collapse"><i class="material-icons">menu</i></a>
 
-            <div id="view_title"></div>
+            <ul class="left">
+                
+            <li>
+                <div id="view_title"></div>
+            </li>
+                
+            </ul>
+
+            <ul class="right">
+                <li>
+                    <a href="#search"><i class="material-icons">search</i></a>
+                </li>
+            </ul>
 
             <ul class="side-nav fixed" id="mobile">
                 <li id="account" onclick="open_account_settings();">
