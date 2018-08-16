@@ -62,17 +62,17 @@
                 $("#main_content").load("inc/search.html", function() {
                     $("#ispinner").fadeOut();
                     $("#view_title").html("Search");
-                    
+
                     $("#search").keyup(function() {
                         var search_value = this.innerHTML;
                         get_search_results(search_value);
                     });
-                    
+
                     $("#search").keyup(function() {
                         var search_value = this.value;
                         get_search_results(search_value);
                     })
-                    
+
                 });
             }
             if (view == "donate") {
@@ -109,14 +109,14 @@
                 get_media(author_id, author_name);
             }
         });
-        
+
         function get_search_results(search_value) {
-            if(search_value != "" && search_value.length > 4) {
+            if (search_value != "" && search_value.length > 4) {
                 console.log(search_value);
-                
+
                 var search_value = encodeURIComponent(search_value);
-                
-                $("#search_results").load(""+server_path+"search.php?term="+search_value+"");
+
+                $("#search_results").load("" + server_path + "search.php?term=" + search_value + "");
             }
         }
 
@@ -185,10 +185,18 @@
                         onOpen: function() {
                             try {
                                 var audioplayer = document.getElementById("audioplayer");
-                                audioplayer.play();
+                                try {
+                                    audioplayer.play();
+                                } catch (e) {
+
+                                }
                             } catch (e) {
                                 var videoplayer = document.getElementById("videoplayer");
-                                videoplayer.play();
+                                try {
+                                    videoplayer.play();
+                                } catch (e) {
+
+                                }
                             }
                         }
                     }).then(function(result) {
@@ -383,11 +391,11 @@
             <a href="#" data-activates="mobile" class="button-collapse"><i class="material-icons">menu</i></a>
 
             <ul class="left">
-                
-            <li>
-                <div id="view_title"></div>
-            </li>
-                
+
+                <li>
+                    <div id="view_title"></div>
+                </li>
+
             </ul>
 
             <ul class="right">
